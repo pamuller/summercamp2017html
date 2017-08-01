@@ -1,0 +1,58 @@
+<div class="col-md-12" ng-controller="tshirtCtrl as tshirts">
+<div class="panel panel-default" ng-show="tshirts.objSingleStore">
+<form role="form" name="tshirts.formtshirt"  ng-submit="tshirts.isCreation?tshirts.add():tshirts.update()" novalidate class="simple-form">
+ <div class="panel panel-default" >
+   <div class="panel-heading">tshirt Info</div>
+     <div class="panel-body">
+         <div class="form-group has-feedback" ng-class="{'has-error':tshirts.formtshirt.objname.$invalid}">
+                     <label>Size</label>
+                     <input type="text" name="size" class="form-control" ng-model="tshirts.objSingleStore.size" required=""/>
+          <span ng-messages="tshirts.formtshirt.size.$error" ng-if="tshirts.formtshirt.size.$touched" class="text-danger">
+                    <p ng-message="required">Item1 name is required.</p>
+                   </span>
+         </div>
+          <div class="form-group">
+             <label>Cost</label>
+             <input  class="form-control" ng-model="tshirts.objSingleStore.cost" />
+          </div>  
+     </div>
+</div>
+      <button type="submit" class="btn btn-default">{{tshirts.submitLabel}}</button>
+     </form>
+      <button  class="btn btn-default" ng-click="tshirts.closeView()">Close</button>
+</div>
+    <div class="panel panel-default" ng-show="! tshirts.objSingleStore">
+   <div class="panel-body">
+      <div  class="panel panel-default">
+         <table datatable="ng" dt-options="tshirts.dtOptions"  dt-column-defs="tshirts.dtColumnDefs"   class="table table-striped table-condensed table-hover">
+              <thead>
+                 <tr>
+                     <th>Size</th>
+                     <th>Cost</th>
+                     <th align="center">
+                           <button type="button" class="btn btn-labeled btn-success" ng-click="tshirts.showView()">
+                              <span class="btn-label">
+                                 <em class="fa fa-plus"></em>
+                              </span>Add</button>
+                        </th>
+                  </tr>
+             </thead>
+            <tbody>
+            <tr ng-repeat="objSingle in tshirts.objList" ng-click="tshirts.select(objSingleStore)">
+                     <td >{{ objSingle.size }}</td>
+                     <td>{{ objSingle.cost}}</td>
+                     <td>
+                        <button type="button" ng-click="tshirts.modify($index)"  class="btn btn-sm btn-warning">
+                           <em class="fa fa-edit"></em>
+                        </button>
+                        <button type="button" ng-click="tshirts.remove($index)"  class="btn btn-sm btn-danger">
+                           <em class="fa fa-trash-o"></em>
+                        </button>
+                     </td>
+                  </tr>
+             </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+</div>

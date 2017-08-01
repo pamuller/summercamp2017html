@@ -1,0 +1,61 @@
+<div class="col-md-12" ng-controller="transportCtrl as transports">
+<div class="panel panel-default" ng-show="transports.objSingleStore">
+<form role="form" name="transports.formChurch"  ng-submit="transports.isCreation?transports.add():transports.update()" novalidate class="simple-form">
+ <div class="panel panel-default" >
+   <div class="panel-heading">transport Info</div>
+     <div class="panel-body">
+         <div class="form-group has-feedback" ng-class="{'has-error':transports.formChurch.objname.$invalid}">
+                     <label>Location</label>
+                     <input type="text" name="location" class="form-control" ng-model="transports.objSingleStore.location" required=""/>
+          <span ng-messages="transports.formtransport.objname.$error" ng-if="transports.formtransport.objname.$touched" class="text-danger">
+                    <p ng-message="required">Locationis required.</p>
+                   </span>
+         </div>
+          <div class="form-group">
+             <label>Cost</label>
+                <input type="text" name="cost" class="form-control" ng-model="transports.objSingleStore.cost" required=""/>
+                <span ng-messages="transports.formtransport.cost.$error" ng-if="transports.formtransport.cost.$touched" class="text-danger">
+                    <p ng-message="required">Cost required.</p>
+                   </span>
+          </div>  
+     </div>
+</div>
+      <button type="submit" class="btn btn-default">{{transports.submitLabel}}</button>
+     </form>
+      <button  class="btn btn-default" ng-click="transports.closeView()">Close</button>
+</div>
+    <div class="panel panel-default" ng-show="! transports.objSingleStore">
+   <div class="panel-body">
+      <div  class="panel panel-default">
+         <table datatable="ng" dt-options="transports.dtOptions"  dt-column-defs="transports.dtColumnDefs"   class="table table-striped table-condensed table-hover">
+              <thead>
+                 <tr>
+                     <th>Location</th>
+                     <th>Cost</th>
+                     <th align="center">
+                           <button type="button" class="btn btn-labeled btn-success" ng-click="transports.showView()">
+                              <span class="btn-label">
+                                 <em class="fa fa-plus"></em>
+                              </span>Add</button>
+                        </th>
+                  </tr>
+             </thead>
+            <tbody>
+            <tr ng-repeat="objSingle in transports.objList" ng-click="transports.select(objSingleStore)">
+                     <td >{{ objSingle.location }}</td>
+                     <td>{{ objSingle.cost}}</td>
+                     <td>
+                        <button type="button" ng-click="transports.modify($index)"  class="btn btn-sm btn-warning">
+                           <em class="fa fa-edit"></em>
+                        </button>
+                        <button type="button" ng-click="transports.remove($index)"  class="btn btn-sm btn-danger">
+                           <em class="fa fa-trash-o"></em>
+                        </button>
+                     </td>
+                  </tr>
+             </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+</div>

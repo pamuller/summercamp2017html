@@ -1,0 +1,46 @@
+ <div class="panel panel-default form-group" ng-controller="contactsCtrl as contacts">
+                            <label>Contact Number(s)</label>
+                            <div class="row">
+                                <div class="form-group col-md-2">
+                                    <select class="form-control" ng-model="contacts.contacttype">
+                                        <option>Home No</option>
+                                        <option>Work No</option>
+                                        <option>Cell No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <input type="tel" class="form-control" ng-model="contacts.contactnum"/>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <button type="button" ng-click="contacts.addContactno()" class="btn btn-sm btn-labled btn-success">
+                                        <span class="btn-label">
+                                            <em class="fa fa-plus"></em>
+                                        </span>Add  <em class="fa fa-phone-square fa-2x "></em>
+                                    </button>
+                                </div>
+                            </div>  
+                            <div class="panel panel-default">
+                                <div  class="panel panel-default">
+                                    <table class="table table-striped table-condensed table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Contact details</th>
+                                                <th align="center"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="contactdetail in contacs.contactdetails" >
+                                                <td >{{contactdetail.contacttype }}</td>
+                                                <td>{{contactdetail.contactno }}</td>
+                                                <td>
+                                                    <button type="button" ng-click="register.removeContactno(contactdetail)"  class="btn btn-sm btn-danger">
+                                                        <em class="fa fa-trash-o"></em>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>

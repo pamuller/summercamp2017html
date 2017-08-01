@@ -1,0 +1,83 @@
+<div class="col-md-12" ng-controller="emailmessageCtrl as mailM">
+    
+<div class="panel panel-default" ng-show="mailM.mailmessage">
+    
+<form role="form" name="emailmessageCtrl.formMail"  ng-submit="mailM.isCreation? mailM.add():mailM.update()" novalidate class="simple-form">
+ <div class="panel panel-default" >
+   <div class="panel-heading">Mail Messages</div>
+     <div class="panel-body">
+         <div class="form-group has-feedback" ng-class="{'has-error':mailM.formMail.churchname.$invalid}">
+                     <label>Mail Message name</label>
+                     <input type="text" name="messagename" class="form-control" ng-model="mailM.mailmessage.messagename" required=""/>
+          <span ng-messages="mailM.formMail.messagename.$error" class="text-danger">
+                    <p ng-message="required">Message name is required.</p>
+                   </span>
+         </div>
+       
+        
+          <div class="form-group">
+             <label>Message</label>
+             <textarea cols="2" rows="3" class="form-control" name="mailmessage" ng-model="mailM.mailmessage.message" required></textarea>
+                <span ng-messages="mailM.formMail.mailmessage.$error" class="text-danger">
+                    <p ng-message="required">Message is required.</p>
+                   </span>
+          </div>
+          
+         
+        
+     </div>
+     
+</div>               
+
+      <button type="submit" class="btn btn-default">{{mailM.submitLabel}}</button>
+      <button  class="btn btn-default" ng-click="mailM.close()">Close</button>
+ </form>
+</div>
+   
+    
+    <div class="panel panel-default" ng-show="! mailM.mailmessage">
+  
+   <div class="panel-body">
+      <div  class="panel panel-default">
+         <table datatable="ng" dt-options="mailM.dtOptions"  dt-column-defs="mailM.dtColumnDefs"   class="table table-striped table-condensed table-hover">
+         
+             
+             
+         
+              <thead>   
+                 <tr>
+                     
+                     <th>Message name</th>
+                    
+                     <th align="center">
+                  <button type="button" class="btn btn-labeled btn-success" ng-click="mailM.showMessageView()">
+                              <span class="btn-label">
+                                 <em class="fa fa-plus"></em>
+                              </span>Add</button>
+                        </th>
+                  </tr>
+             </thead>
+            <tbody >
+            <tr ng-repeat="mailmes in mailM.mailmessageList" ng-click="mailM.selectMessage($index)">
+                     <td>{{ mailmes.messagename }}</td>
+                     <td>
+                        <button type="button" ng-click="mailM.modify($index)"  class="btn btn-sm btn-warning">
+                           <em class="fa fa-edit"></em>
+                        </button>
+                       
+                        <button type="button" ng-click="mailM.remove($index)"  class="btn btn-sm btn-danger">
+                           <em class="fa fa-trash-o"></em>
+                        </button>
+                     </td>
+                  </tr>
+             </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+    
+    
+    
+    
+    
+</div>

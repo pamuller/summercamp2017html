@@ -1,0 +1,43 @@
+body {
+  font-family: Merriweather,'Helvetica Neue',Arial,sans-serif;
+}
+
+.navbar {
+    border-radius: 0px;
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.navbar-inverse {
+    background-color: #F05F40;
+    border-color: #F05F40;
+}
+
+.navbar-inverse .navbar-brand {
+    color: white;
+}
+
+
+
+.navbar-inverse .navbar-nav>li>a {
+    color: black;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    background-color: #F05F40;
+    border-color: #F05F40;
+
+}
+
+.nav > li > a, .navbar-default .nav > li > a:focus {
+    
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 13px;
+    color: black;
+}
+
+
+
+a {
+  color: #00B7FF;
+}

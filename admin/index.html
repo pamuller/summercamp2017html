@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+    
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+   
+     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+     <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.min.css">
+     <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/customAdmin.css">
+</head>
+<body ng-controller="logonCtrl as logons">
+
+  <!-- Livereload script for development only (stripped during dist build)
+  <script src="http://localhost:35729/livereload.js" data-concat="false"></script> -->
+
+  <!-- JS from Bower Components
+  <script src="bower_components/less.js/dist/less-1.6.2.js" data-concat="false"></script>
+  <script src="bower_components/jquery/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/angular-ui-utils/ui-utils.js"></script>-->
+  <!-- Add New Bower Component JS Above -->
+
+
+  <!-- Main App JS
+  <script src="app.js"></script>
+  <script src="modules/church/churchlist/churchlist.js"></script>
+  <script src="modules/church/churchcreate/churchcreate.js"></script>-->
+    <script src="bower_components/requirejs/require.js" data-main="main.js"></script>
+  <!-- Add New Component JS Above -->
+
+
+<div ng-show="logons.authenticated">
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" ui-sref="#">Summer Camp Admin 2016</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li><a ui-sref="registerUserViewState">Registered Users</a></li>
+        <li><a ui-sref="churchState">Church</a></li>
+        <li><a ui-sref="correspondenceState">Correspondence</a></li>
+        <li><a ui-sref="transportState">Transport</a></li>
+        <li><a ui-sref="tshirtState">Tshirt</a></li>
+       
+    </ul>
+</nav>
+
+ <div>
+    <div id="content" class="container">
+      <div class="row">
+        <div ui-view>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<div class="centered" ng-show="! logons.authenticated">
+    <div class="vertical-center-row">
+        <div align="center">
+        <span   class="text-danger" ng-show="logons.formlogon.authError">
+     <p >Username or password is incorrect</p>
+</span>
+             <form role="form" name="logons.formlogon"  ng-submit="logons.logon()" novalidate class="simple-form">
+        
+    <div class="form-group has-feedback input-group" ng-class="{'has-error':logons.formlogon.objname.$invalid}">
+         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="text" name="username" class="form-control" ng-model="logons.objSingleStore.username" required="" placeholder="email"/>
+        <span ng-messages="logons.formlogon.username.$error" ng-if="logons.formlogon.username.$touched" class="text-danger">
+        <p ng-message="required">Username is required.</p>
+        </span>
+</div>
+        
+        <div class="form-group has-feedback input-group" ng-class="{'has-error':logons.formlogon.password.$invalid}">
+ <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+<input type="password" name="password" class="form-control" ng-model="logons.objSingleStore.password" required="" placeholder="password"/>
+<span ng-messages="logons.formlogon.password.$error" ng-if="logons.formlogon.password.$touched" class="text-danger">
+<p ng-message="required">password is required.</p>
+</span>
+            
+            
+</div>
+   
+         <button type="submit" class="btn btn-default">Logon</button>
+
+    </form>
+        
+        
+        
+        </div>
+    </div>
+</div>     
+
+
+</body>
+</html>

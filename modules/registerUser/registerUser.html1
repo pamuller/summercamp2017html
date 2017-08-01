@@ -1,0 +1,658 @@
+<div class="col-md-12" ng-controller="registerUserCtrl as register">
+
+    <form role="form" name="register.formRegisterUser" onkeypress="return event.keyCode != 13;"  ng-submit="register.add()" novalidate class="simple-form">
+     <ul class="pagination" ng-modle=register>
+            <li class="active" id="liInstructions"><a  data-toggle="tab" ng-click="register.changTabInstructions()">Instructions</a></li>
+            <li id="liCampInfo"><a   >Camper Info</a></li>
+             <li id="liParent"><a  >Emergency contacts</a></li>
+            <li id="liMedical"><a  >Medical Info</a></li>
+            <li id="liAdditional"><a >Additional Info</a></li>
+     </ul>
+        
+<div class="panel-group" ng-show="register.showCamper">    
+<h2>Camper Details</h2>
+    <ng-form name="register.formCamperInfo">
+    <div class="panel panel-default">
+        <div class="panel-heading">Camper Info</div>
+                <div class="panel-body">
+        <div class="form-group has-feedback" ng-class="{'has-error': register.formCamperInfo.firstname.$invalid}">
+            <label>Name</label>
+            <input type="text" class="form-control" name="firstname " ng-model="register.user.firstname" required="" />
+            <span ng-messages="register.formCamperInfo.firstname.$error" ng-if="register.formCamperInfo.firstname.$touched" class="text-danger">
+                                  <p ng-message="required">Your name is required.</p>
+
+                                 </span>
+
+
+        </div>
+        <div class="form-group has-feedback" ng-class="{'has-error': register.formCamperInfo.surname.$invalid}">
+            <label>Surname</label>
+            <input type="text" class="form-control" name="surname" ng-model="register.user.lastname" required="" />
+            <span ng-messages="register.formCamperInfo.surname.$error" ng-if="register.formCamperInfo.surname.$touched" class="text-danger">
+                                    <p ng-message="required">Your surname is required.</p>
+                                   </span>
+        </div>
+        <div class="row">
+            <div class="form-group has-feedback col-md-6" ng-class="{'has-error': register.formCamperInfo.birthdate.$invalid}">
+                <label>Date of Birth</label>
+                <input type="text" class="form-control" name="birthdate" ng-model="register.user.dateofbirth" ui-mask="9999-99-99" placeholder="YYYY-MM-DD" ui-mask-placeholder  required/>
+
+                <span ng-messages="register.formCamperInfo.birthdate.$error" ng-if="register.formCamperInfo.birthdate.$touched" class="text-danger">
+                                            <p ng-message="required">Your birthdate is required.</p>
+                                           </span>
+            </div>
+        </div>
+
+        <div class="form-group has-feedback">
+            <label>Gender</label>
+            <div >
+                <label class="checkbox-inline">
+                    Male</label><input type="radio" value="male" name="gender" ng-model="register.user.gender"  checked="checked"/>
+                <label class="checkbox-inline">
+                    Female</label><input type="radio" value="female" name="gender" ng-model="register.user.gender" />
+
+                <span ng-messages="register.formCamperInfo.gender.$error" ng-if="register.formCamperInfo.gender.$touched" class="text-danger">
+                                           <p ng-message="required">Gender is required.</p>
+
+                                           </span>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': register.formCamperInfo.contactno.$invalid}">
+            <label>Contact number</label>
+            <input type="text" class="form-control" name="contactno" ng-model="register.user.contactno" required ui-mask="(999) 999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
+             <span ng-messages="register.formCamperInfo.contactno.$error" ng-if="register.formCamperInfo.contactno.$touched" class="text-danger">
+                                  <p ng-message="required">Contact number is required.</p>
+                                    
+                                 </span>
+        </div>
+        <div class="form-group has-feedback" ng-class="{'has-error': register.formCamperInfo.email.$invalid}">
+            <label>Email</label>
+            <input type="email" class="form-control" name="email" ng-model="register.user.email" required="" />
+            <span ng-messages="register.formCamperInfo.email.$error" ng-if="register.formCamperInfo.email.$touched" class="text-danger">
+                                  <p ng-message="required">Your Email address is required.</p>
+                                  <p ng-message="email">Email address is not valid.</p>    
+                                 </span>
+        </div>
+
+    <div class="form-group has-feedback" ng-class="{'has-error': register.formCamperInfo.address.$invalid}">
+        <label>Physical Address</label>
+        <textarea cols="2" rows="3" class="form-control" name="address" ng-model="register.addressinfo.physicaladdress" required ></textarea>
+        <span ng-messages="register.formCamperInfo.address.$error" ng-if="register.formCamperInfo.address.$touched" class="text-danger">
+                                   <p ng-message="required">Your address is required.</p>
+
+                                  </span>
+    </div>
+
+
+        <div class="form-group">
+            <label>Postal Address</label>
+            <textarea cols="2" rows="3" class="form-control" ng-model="register.addressinfo.postaladdress"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Postal Code</label>
+            <input type="number" class="form-control" ng-model="register.addressinfo.postalcode" />
+        </div>
+
+        <div class="form-group">
+            <label>Church you are from</label>
+
+        </div>
+
+        <div class="form-group has-feedback" ng-class="{'has-error':register.formCamperInfo.churchprovince.$invalid}">
+            <label>Province</label>
+            <select class="form-control" name="churchprovince" ng-model="register.province" ng-change="register.getChurchListByProvince(register.province)" ng-options="item.provinceName for item in register.provinces track by item['@rid']"  required >
+            </select>
+            <span ng-messages="register.formCamperInfo.churchprovince.$error" ng-if="register.formCamperInfo.churchprovince.$touched" class="text-danger">
+                                    <p ng-message="required">Province is required.</p>
+                                   </span>
+        </div>
+
+        <div class="form-group has-feedback" ng-class="{'has-error':register.formCamperInfo.churchlist.$invalid}">
+            <label>Church List</label>
+            <select class="form-control" name="churchlist" ng-model="register.church" ng-options="item.churchname for item in register.churchlist track by item['@rid']" required >
+            </select>
+            <span ng-messages="register.formCamperInfo.churchlist.$error" ng-if="register.formCamperInfo.churchlist.$touched" class="text-danger">
+                 <p ng-message="required">Church is required.</p>
+             </span>
+        </div>
+
+
+
+    </div> 
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">T-Shirt</div>
+        <div class="panel-body">
+            <div class="form-group has-feedback">
+                 <label class="checkbox-inline">
+							   <input type="checkbox" name="tshirtneeded" ng-model="register.tshirt.required"  >I would like a T-shirtt</label>               
+              </div>
+            <div class="form-group has-feedback"  >
+                       <label>Size</label>
+                    
+                <div ng-repeat="tshirt in register.tshirtList">
+                        <label class="checkbox-inline">
+							<input type="radio" name="tshirstsize"  ng-value="'{{tshirt['@rid']}}'" ng-model="register.tshirt.size" ng-required="register.tshirt.required" ng-disabled="!register.tshirt.required">{{tshirt.size}}  R{{tshirt.cost}}</label>
+                   
+                   </div>
+                
+                
+              
+                     <span ng-messages="register.formRegisterUser.tshirstsize.$error" ng-if="register.formRegisterUser.tshirstsize.$touched" class="text-danger">
+                    <p ng-message="required">T-shirt size is required.</p>
+                   </span>
+              </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Transport</div>
+        <div class="panel-body">
+        <div class="form-group has-feedback">
+                          <label class="checkbox-inline">
+							   <input type="checkbox" ng-model="register.transport.required" >I will need transport</label>
+                 <span ng-messages="register.formRegisterUser.firstname.$error" ng-if="register.formRegisterUser.firstname.$touched" class="text-danger">
+                  <p ng-message="required">Your name is required.</p>
+                 
+                 </span>
+              
+            
+              </div>
+               <div class="form-group has-feedback"  >
+                   <div ng-repeat="transport in register.transportList">
+                        <label class="checkbox-inline">
+							<input type="radio" name="transportneeded"  ng-value="'{{transport['@rid']}}'" ng-model="register.transport.from" ng-required="register.transport.required" ng-disabled="!register.transport.required">{{transport.location}}  R{{transport.cost}}</label>
+                   
+                   </div>
+                   
+                
+                   
+                     <span ng-messages="register.formRegisterUser.transportneeded.$error" ng-if="register.formRegisterUser.transportneeded.$touched" class="text-danger">
+                    <p ng-message="required">Your surname is required.</p>
+                   </span>
+              </div>
+        
+        </div>
+    </div>
+    </ng-form>
+     <div class="panel-footer" align='right'><i class="mousechange fa fa-chevron-circle-right fa-2x" ng-click="register.validateCamper()" aria-hidden="true"></i></div>
+</div>
+        
+        
+ 
+<div class="panel-group" ng-show="register.showParent">    
+<h2>Emergency contacts</h2>
+     	<ng-form name="register.parentForm">
+ <div class="panel panel-default">
+      <h4>In case of Emergency we require 2 contact numbers.</h4>
+                <div class="panel-body">
+                    <div class="panel panle-default">
+                        <div class="panle-body form-group">
+                        <div class="form-group has-feedback">
+                            <label>Name</label>
+                            <input type="text" name="parentname1" class="form-control" ng-model="register.parent.firstname" ng-required="register.parentInfoError" />
+                            <span ng-messages="register.parentForm.parentname1.$error" ng-if="register.parentForm.parentname1.$touched" class="text-danger">
+                                <p ng-message="required">Name is required.</p>
+                            </span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label>Surname</label>
+                            <input type="text" name="parentsurname" class="form-control" ng-model="register.parent.lastname"  ng-required="register.parentInfoError"/>
+                            <span ng-messages="register.parentForm.parentsurname.$error" ng-if="register.parentForm.parentsurname.$touched" class="text-danger">
+                                <p ng-message="required">Surname is required.</p>
+                            </span>
+                        </div>
+                         <div class="panel panel-default form-group  col-md-6">
+                            <label>Contact Number(s)</label>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <select name="contacttype" class="form-control" ng-model="register.parent.contacttype">
+                                        <option>Home No</option>
+                                        <option>Work No</option>
+                                        <option>Cell No</option>
+                                    </select>
+                                      <span ng-show="register.contacttypeError" class="text-danger">
+                                    <p >Contact type is required.</p>
+                                </span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <input type="tel" name="contactnum" class="form-control" ng-model="register.parent.contactnum" />
+                                    <span ng-show="register.contactnumberError"  class="text-danger">
+                                    <p >Contact number is required.</p>
+                                </span>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <button type="button" ng-click="register.addContactno()" class="btn btn-sm btn-labled btn-primary">
+                                        <span class="btn-label">
+                                            <em class="fa fa-plus"></em>
+                                        </span><em class="fa fa-phone-square fa-2x "></em>
+                                    </button>
+                                </div>
+                            </div>  
+                            <div class="panel panel-default">
+                                <div  class="panel panel-default">
+                                    <table class="table table-striped table-condensed table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Contact details</th>
+                                                <th align="center"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="contactdetail in register.parent.contactdetails" >
+                                                <td >{{contactdetail.contacttype }}</td>
+                                                <td>{{contactdetail.contactno }}</td>
+                                                <td>
+                                                    <button type="button" ng-click="register.removeContactno(contactdetail)"  class="btn btn-sm btn-danger">
+                                                        <em class="fa fa-trash-o"></em>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <span ng-show="register.parentError" class="text-danger">
+                                    <p>Add contact numbers to the list by pressing the blue button above</p>
+                                </span>
+                            </div>
+                        </div>    
+                        <div class="form-group col-md-8">
+                            <label>Relation to Camper</label>
+                            <select name="parentrelation" class="form-control" ng-model="register.parent.relation" ng-required="register.parentInfoError">
+                                <option >Father</option>
+                                <option >Gaurdian</option>
+                                <option >Mother</option>
+                                <option >Older sibling</option> 
+                                <option >Spouse</option>
+                                <option >Step Father</option>
+                                <option >Step Mother</option>
+                                <option >Youth Leader/Pastor</option>
+                                <option >Pastor</option>
+                                
+                            </select>
+                            <span ng-messages="register.parentForm.parentrelation.$error" ng-if="register.parentForm.parentrelation.$touched"  class="text-danger">
+                                <p ng-message="required">Relation to camper is required.</p>
+                            </span>
+                        </div>
+                       
+                    </div>
+                        </div>
+                    <div align="right">
+                        <button type="button" ng-click="register.addPerent()" class="btn btn-sm btn-labled btn-success">
+                            <span class="btn-label ">
+                                <em class="fa fa-plus"></em>
+                            </span>Add <em class="fa fa-user "></em>
+                        </button>
+                         
+                    </div>    
+                    <div class="form-group">
+                        <label>Listed Emergency contacts (minimum of 2 people needed)</label>
+                        <div  class="panel panel-default">
+                            <table class="table table-striped table-condensed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Surname</th>
+                                        <th>Relation to camper</th>
+                                        <th>Contact details</th>
+                                        <th align="center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr ng-repeat="perantGardian in register.perantGardians" >
+                                        <td>{{perantGardian.firstname}}</td>
+                                        <td>{{perantGardian.lastname}}</td>
+                                        <td>{{perantGardian.relation}}</td>
+                                        <td ng-repeat="contactdetail in perantGardian.codtactdetails">
+                                            {{contactdetail.contactno}}
+                                        </td>
+                                        <td>
+                                            <button type="button" ng-click="register.removePerent($index)"  class="btn btn-sm btn-danger">
+                                                <em class="fa fa-trash-o"></em>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                         <span ng-show="register.parentListError" class="text-danger">
+                                    <p>An minimum of 2 Emergency contacts numbers needed</p>
+                          </span>
+                    </div>
+                
+            </div>
+            </div>
+         </ng-form>
+        <div class="panel-footer" align='right'><i class="mousechange fa fa-chevron-circle-right fa-2x" aria-hidden="true" ng-click="register.validateParent()"></i></div>	
+        
+</div>    
+        
+        
+    
+<div class="panel-group" ng-show="register.showMedical">
+    <h2>Medical Information</h2>
+    <ng-form name="register.meicalForm">
+    <div class="panel panel-default">
+        <div class="panel-heading">Medical History of Camper</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <select class="form-control" ng-model="register.medicalhistory" ng-change="register.medicalerror()" name="medicalhistory" required>
+                        <option value="" disabled>- Please Choose -</option>
+                        <option>Asthma</option>
+                        <option>Convulsions</option>
+                        <option>Heart Murmur</option>
+                        <option>None</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                
+                <div ng-show="register.medicalhistory == 'Other'" class="form-group col-md-8">
+                    <input type="text" ng-model="register.medicalother" class="form-control" />
+                </div>
+                <div class="form-group col-md-2">
+                    <button type="button" ng-click="register.addMedicalhistory()" class="btn btn-sm btn-labled btn-success">
+                        <span class="btn-label">
+                                <em class="fa fa-plus">
+                                </em>
+                            </span> Add Medical History
+                    </button>
+                </div>
+                <div ng-show="register.medicalhistoryerror">
+                    <span class="text-danger">
+                                  <p>One entry required. If not applicable please choose none and click the "Add Medical History" button. </p>
+                      </span>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <table class="table table-striped table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>Medical History List (Muliple items can be added to the list.)</th>
+                            <th align="center">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="history in register.medicalinfo.histories">
+                            <td>{{history.history }}</td>
+                            <td>
+                                <button type="button" ng-click="register.removeMedicalHistory($index)" class="btn btn-sm btn-danger">
+                                    <em class="fa fa-trash-o"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+
+        <div class="panel-heading">Allergies</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <select class="form-control" ng-model="register.allergy" ng-change="register.allergyerror()" name="allergies" required>
+                        <option value="" disabled>- Please Choose -</option>
+                        <option>Stings</option>
+                        <option>Hay Fever</option>
+                        <option>Penicillin</option>
+                        <option>Food</option>
+                        <option>None</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group col-md-8" ng-show="register.allergy == 'Food' || register.allergy == 'Other'">
+                    <input type="text" ng-model="register.allergiesother" class="form-control" />
+                </div>
+                <div class="form-group col-md-2">
+                    <button type="button" ng-click="register.addAllergies()" class="btn btn-sm btn-labled btn-success">
+                        <span class="btn-label">
+                                <em class="fa fa-plus">
+                                </em>
+                            </span> Add Allergies
+                    </button>
+                </div>
+                <div ng-show="register.allergieserror" >
+                       <span class="text-danger">
+                            <p>One entry required. If not applicable please choose none and click the "Add Allergies" button.</p>
+                        </span>
+                </div>
+
+            </div>
+            <div class="panel panel-default">
+                <table class="table table-striped table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>Allergies List (Muliple items can be aded to the list.)</th>
+                            <th align="center">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="allergy in register.medicalinfo.allergies">
+                            <td>{{allergy.allergy }}</td>
+
+                            <td>
+
+                                <button type="button" ng-click="register.removeAllergy($index)" class="btn btn-sm btn-danger">
+                                    <em class="fa fa-trash-o"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Medication required</div>
+        <div class="panel-body">
+            <div class="row">
+
+                <div class="form-group col-md-8">
+                    <input type="tel" ng-model="register.medication" class="form-control" />
+                </div>
+                <div class="form-group col-md-2">
+                    <button type="button" ng-click="register.addMedication()" class="btn btn-sm btn-labled btn-success">
+                        <span class="btn-label">
+                                <em class="fa fa-plus">
+                                </em>
+                            </span> Add Medication
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <table class="table table-striped table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>Medication List (Muliple items can be aded to the list.)</th>
+                            <th align="center">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="medication in register.medicalinfo.medications">
+                            <td>{{medication.medicationname }}</td>
+
+                            <td>
+
+                                <button type="button" ng-click="register.removeMedication($index)" class="btn btn-sm btn-danger">
+                                    <em class="fa fa-trash-o"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Medical Aid Information</div>
+        <div class="panel-body">
+           <div class="form-group">
+             <label class="checkbox-inline">
+                    Medical Aid </label><input type="checkbox" name="hasMedical" ng-model="register.medicalaidinfo.hasmedicalAid"  >
+            </div> 
+        <div>   
+            <div class="form-group">
+                <label>Medical aid name</label>
+
+                <input type="text" name="MedicalAidName" class="form-control" ng-model="register.medicalaidinfo.MedicalAidName"  ng-disabled="! register.medicalaidinfo.hasmedicalAid"  ng-required='register.medicalaidinfo.hasmedicalAid'/>
+                 <span ng-messages="register.meicalForm.MedicalAidName.$error" ng-if="register.meicalForm.MedicalAidName.$touched" class="text-danger">
+                                <p ng-message="required">Medical Aid name is required.</p>
+                            </span>
+            </div>
+            <div class="form-group">
+                <label>Medical plan</label>
+
+                <input type="text" class="form-control" ng-model="register.medicalaidinfo.MedicalPlan" ng-disabled="! register.medicalaidinfo.hasmedicalAid"/>
+
+            </div>
+            <div class="form-group">
+                <label>Main member name</label>
+
+                <input type="text" name ="MainMemberName" class="form-control" ng-model="register.medicalaidinfo.MainMemberName" ng-disabled="! register.medicalaidinfo.hasmedicalAid"  ng-required='register.medicalaidinfo.hasmedicalAid'/>
+                 <span ng-messages="register.meicalForm.MainMemberName.$error" ng-if="register.meicalForm.MainMemberName.$touched" class="text-danger">
+                                <p ng-message="required">Medical Aid Member name is required.</p>
+                            </span>
+            </div>
+            <div class="form-group">
+                <label>Relation to camper</label>
+
+                <input type="text" class="form-control" ng-model="register.medicalaidinfo.RelationToCamper" ng-disabled="! register.medicalaidinfo.hasmedicalAid"/>
+            </div>
+            <div class="form-group">
+                <label>Medical aid no.</label>
+
+                <input type="text" name="MedicalAidNo" class="form-control" ng-model="register.medicalaidinfo.MedicalAidNo" ng-disabled="!register.medicalaidinfo.hasmedicalAid"  ng-required='register.medicalaidinfo.hasmedicalAid'/>
+                 <span ng-messages="register.meicalForm.MedicalAidNo.$error" ng-if="register.meicalForm.MedicalAidNo.$touched" class="text-danger">
+                                <p ng-message="required">Medical Aid number is required.</p>
+                            </span>
+            </div>
+            <div class="form-group">
+                <label>Campers beneficiary no.</label>
+
+                <input type="text" class="form-control" ng-model="register.medicalaidinfo.CampersBenificary" ng-disabled="!register.medicalaidinfo.hasmedicalAid"/>
+            </div>
+          </div>   
+        </div>
+    </div>
+    </ng-form>
+    <div class="panel-footer" align='right'><i class="mousechange fa fa-chevron-circle-right fa-2x" ng-click="register.validateMedical()" aria-hidden="true"></i></div>
+</div>  
+        
+        
+        
+<div class="panel-group" ng-show="register.showOther">
+    <h2>Other Information</h2>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">Info</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Details</label>
+                    <textarea cols="2" rows="3" class="form-control" ng-model="register.otherinfo.otherinfo"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer" align="right">
+         <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </div>
+</div> 
+        
+        
+<div class="panel-group" ng-show="register.showUpload">
+    <h2>Upload docs </h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">Documentation</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Doc</label>
+            </div>
+            <div>
+                <input type="file" file-model="register.myFile" />
+                <button type="button" ng-click="register.uploadFile()">upload me</button>
+                <button type="button" ng-click="register.getFile()">get file</button>
+            </div>
+            <div class="panel panel-default">
+                <table class="table table-striped table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>Document List</th>
+                            <th align="center">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="file in register.fileList">
+                            <td>{{file.name }}</td>
+                            <td>
+                                <button type="button" ng-click="register.removeDocs($index)" class="btn btn-sm btn-danger">
+                                    <em class="fa fa-trash-o"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel-footer" align='right'><i class="mousechange fa fa-chevron-circle-right fa-2x" aria-hidden="true"></i></div>
+    </div>
+</div> 
+        
+<div class="panel-group" ng-show="register.showInstructions">
+    <h2>Instructions</h2>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">Instructions</div>
+            <div class="panel-body" ng-show="!register.registrered">
+                <div class="form-group">
+                    <p>The personal information provided by you as a Parent/ Guardian/ Camper of The Baptist Youth of SA Summer Camp contains aspects that is considered information that falls both inside and outside the ambit of the Protection of Personal Information Act, Act No. 4 of 2013 (“POPI Act”).  This personal information is provided freely by you as a Parent/ Guardian/ Camper and may be utilized for the reasons associated with the running of The Baptist Youth of SA Summer Camp.  Any provided information may also be de-identified for statistical analysis to enhance service delivery. </p>
+                </div>
+                <div class="form-group">
+                 <label class="checkbox-inline">
+                        I agree     </label><input type="checkbox" name="hasMedical" ng-model="register.giveConcent"  >
+                </div> 
+            </div>
+            
+             <div ng-show="register.registrered">
+              <div class="panel-body">
+                <div> Thank you for Registering for Summer Camp 2016.</div>
+                  <div>Your reference number is : {{register.refnumber}}.</div>
+                  <div>Please use this number in all correspondence with us and as the beneficiary reference number when making a EFT payment</div>
+                  <div>
+                      <p></p>
+                      <p>Payments can be made to:</p>
+    <p>Baptist Youth of SA</p>
+    <p>Standard Bank - Westgate Branch</p>
+    <p>Branch Code: 016641</p>
+    <p>Acc Number: 401444988</p>
+    </div>
+                  
+                  <div>You will recieve an email with camper information and an indemnity form attached.</div>
+             <div><i class="fa fa-print fa-2x" aria-hidden="true" ng-click="register.printPage()"></i>
+                  
+                  </div>
+                 </div>
+    
+            </div>
+            
+            <div class="panel-footer" align='right'><i  class="mousechange fa fa-chevron-circle-right fa-2x" aria-hidden="true" ng-click="register.validateConcent()" ng-show="register.giveConcent"  ></i></div>
+        </div>
+    </div>
+   
+</div>      
+        
+        
+    
+    </form>
+    
+     <button type="submit" name="submitBt" class="btn btn-default" ng-show="register.showSubmit" ng-disabled="register.submitchecked">{{register.SubmitLabel}} <i class="fa fa-cog" aria-hidden="true" ng-show="! register.submitchecked"></i></button>
+</div>

@@ -1,0 +1,106 @@
+<div class="col-md-12" ng-controller="registerUserViewCtrl as register">
+<form role="form" name="register.formRegisterUser"  ng-submit="register.add()" novalidate class="simple-form">
+    
+     <div class="panel panel-default" >
+  
+         <div class="panel-body">
+         
+           <div class="form-group">
+                       <label>Church you are from</label>
+                      
+              </div>
+              
+               <div class="form-group has-feedback" ng-class="{'has-error':churches.formChurch.churchprovince.$invalid}">
+                 <label>Province</label>
+        <select class="form-control"  name="churchprovince" ng-model="register.province" ng-change="register.getChurchListByProvince(register.province)"
+                    ng-options="item.provinceName for item in register.provinces track by item['@rid']">   
+                </select>
+           <span ng-messages="churches.formChurch.churchprovince.$error" ng-if="churches.formChurch.churchprovince.$touched" class="text-danger">
+                    <p ng-message="required">Province is required.</p>
+                   </span>
+        </div> 
+              
+        <div class="form-group has-feedback" ng-class="{'has-error':churches.formChurch.churchprovince.$invalid}">
+                 <label>Church List</label>
+        <select class="form-control"  name="churchlist" ng-model="register.church"
+                    ng-options="item.churchname for item in register.churchlist track by item['@rid']"
+                ng-change="register.getUserListByChurch(register.church)"
+ >   
+                </select>
+           <span ng-messages="churches.formChurch.churchprovince.$error" ng-if="churches.formChurch.churchprovince.$touched" class="text-danger">
+                    <p ng-message="required">Province is required.</p>
+                   </span>
+        </div>
+         
+         </div>
+    </div>
+    
+    
+    
+        
+      <div class="panel panel-default" >
+  
+   <div class="panel-body">
+      <div  class="panel panel-default">
+         <table datatable="ng" dt-options="churches.dtOptions"  dt-column-defs="churches.dtColumnDefs"   class="table table-striped table-condensed table-hover">
+         
+             
+             
+         
+              <thead>   
+                 <tr>
+                     
+                     <th>Name</th>
+                     <th>Surname</th>
+                     <th>Contact No</th>
+                     <th>Age</th>
+                     <th>Gender</th>
+                     
+                     <th align="center">
+                         
+                        </th>
+                  </tr>
+             </thead>
+            <tbody >
+            <tr ng-repeat="user in register.registerlist" >
+                     <td >{{ user.firstname }}</td>
+                     <td>{{ user.lastname }}</td>
+                      <td>   <table >
+
+                        <tr ng-repeat="item in user.contactno track by $index">
+                            <td>{{item.cell}}</td>
+                        </tr>
+
+                        </table>     
+                
+                
+                     </td>
+                      <td>{{register.calculateAge(user.dateofbirth)}}</td>
+                      <td>{{ user.gender }}</td>
+                     
+                     
+                     <td>
+                        <button type="button" ng-click="register.viewUser($index)"  class="btn btn-sm btn-warning">
+                           <em class="fa fa-edit"></em>
+                        </button>
+                       
+                     </td>
+                  </tr>
+             </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+
+    
+    
+   
+   
+    
+ 
+    
+     
+
+ </form>
+
+</div>
